@@ -21,7 +21,7 @@ const AddDriversComponent = () => {
 
         if(id){
             DriverService.updateDriver(id, driver).then((response) => {
-                history.push('/drivers')   
+                navigate.push('/drivers')   
             }).catch(error => {
                 console.log(error)
             })

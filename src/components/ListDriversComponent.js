@@ -54,7 +54,7 @@ const ListDriversComponent = () => {
                         <td>{driver.Address}</td>
                         <td>
                           <Link className='btn btn-info' to = {'/edit-driver/${driver.id}'}>Update</Link>
-                          <button className='btn btn-danger' onClick={() => deleteEmployee(driver.id)}
+                          <button className='btn btn-danger' onClick={() => deleteDriver(driver.id)}
                             style={{marginLeft:'10px'}}>Delete</button>
                         </td>
                 </tr>

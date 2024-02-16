@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import DriverService from '../services/DriverService';
+import { Link } from 'react-router-dom';
 
 const ListDriversComponent = () => {
     const [drivers, setDrivers] = useState([]);
@@ -16,6 +17,7 @@ const ListDriversComponent = () => {
   return (
     <div className='container'>
       <h2 className='text-centre'>List Of Drivers</h2>
+      <Link to = '/add-driver' className='btn btn-primary mb-2'>Add Drivers</Link>
       <table className='table table-bordered table-striped'>
         <thead>
             <th>Id</th>

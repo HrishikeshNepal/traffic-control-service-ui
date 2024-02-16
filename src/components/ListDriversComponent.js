@@ -6,13 +6,24 @@ const ListDriversComponent = () => {
     const [drivers, setDrivers] = useState([]);
 
     useEffect(() => {
-        DriverService.getAllDrivers().then(response => {
-            setDrivers(response.data)
-            console.log(response.data);
-        }).catch(error => {
-            console.log(error);
-        })
+        getAllDrivers();
     }, [])
+
+    const getAllDrivers = () => {
+        DriverService.getAllDrivers().then(response => {
+          setDrivers(response.data)
+          console.log(response.data);
+      }).catch(error => {
+          console.log(error);
+      })
+    }    
+    const deleteDriver = (driverId) => {
+        DriverService.deleteDriver(driverId).then((response) => {
+          getAllDrivers();
+        }).catch(error => {
+          console.log(error)
+        })
+    }
 
   return (
     <div className='container'>
@@ -27,6 +38,7 @@ const ListDriversComponent = () => {
             <th>Phone</th>
             <th>Email</th>
             <th>Address</th>
+            <th>Actions</th>
         </thead>
         <tbody>
             {
@@ -40,6 +52,11 @@ const ListDriversComponent = () => {
                         <td>{driver.phone}</td>
                         <td>{driver.email}</td>
                         <td>{driver.Address}</td>
+                        <td>
+                          <Link className='btn btn-info' to = {'/edit-driver/${driver.id}'}>Update</Link>
+                          <button className='btn btn-danger' onClick={() => deleteEmployee(driver.id)}
+                            style={{marginLeft:'10px'}}>Delete</button>
+                        </td>
                 </tr>
                 )
             }

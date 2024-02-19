@@ -15,7 +15,7 @@ function App() {
           <Route exact path='/' Component={ListDriversComponent}></Route>
           <Route exact path='/drivers' Component={ListDriversComponent}></Route>
           <Route exact path='/add-driver' Component={AddDriversComponent}></Route>
-          <Route exact path='/edit-driver:id' Component={AddDriversComponent}></Route>
+          <Route exact path='/edit-driver/:id' Component={AddDriversComponent}></Route>
         </Routes>
       </div>
       <FooterComponent />

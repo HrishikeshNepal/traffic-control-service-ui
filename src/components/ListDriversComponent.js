@@ -21,9 +21,17 @@ const ListDriversComponent = () => {
         DriverService.deleteDriver(driverId).then((response) => {
           getAllDrivers();
         }).catch(error => {
-          console.log(error)
+          console.log(error);
         })
     }
+
+    // const updateDriver = (driverId, driver) => {
+    //   DriverService.updateDriver(driverId, driver).then((response) => {
+    //     getAllDrivers();
+    //   }).catch(error => {
+    //     console.log(error);
+    //   })
+    // }
 
   return (
     <div className='container'>
@@ -53,7 +61,8 @@ const ListDriversComponent = () => {
                         <td>{driver.email}</td>
                         <td>{driver.Address}</td>
                         <td>
-                          <Link className='btn btn-info' to = {'/edit-driver/${driver.id}'}>Update</Link>
+                          {/* <button className='btn btn-info' onClick={() => updateDriver(driver.id, driver)}>Update</button> */}
+                          <Link className='btn btn-info' to={'/edit-driver/${driver.id}'} >Update</Link>
                           <button className='btn btn-danger' onClick={() => deleteDriver(driver.id)}
                             style={{marginLeft:'10px'}}>Delete</button>
                         </td>

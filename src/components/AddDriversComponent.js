@@ -14,12 +14,11 @@ const AddDriversComponent = () => {
     const navigate = useNavigate();
     const {driverId} = useParams();
 
-    const saveOrUpdateDriver = (e) => {
+    const saveDriver = (e) => {
         e.preventDefault();
-
         const driver = {id, firstName, middleName, lastName, phone, email, address}
 
-        if(id){
+        if(driverId){
             DriverService.updateDriver(id, driver).then((response) => {
                 navigate.push('/drivers')   
             }).catch(error => {
@@ -27,8 +26,8 @@ const AddDriversComponent = () => {
             })
         } else {
             DriverService.createDriver(driver).then((response) => {
-                console.log(response.data)
                 navigate.push('/drivers')
+                console.log(response.data)
             }).catch(error => {
                 console.log(error)
             })
@@ -37,6 +36,7 @@ const AddDriversComponent = () => {
 
     useEffect (() => {
         DriverService.getDriverById(driverId).then((response) => {
+            setId(response.data.id)
             setFirstName(response.data.firstName)
             setMiddleName(response.data.middleName)
             setLastName(response.data.lastName)
@@ -46,11 +46,11 @@ const AddDriversComponent = () => {
         }).catch(error => {
             console.log(error)
         })
-    }, [])
+    }, [driverId])
     
 
     const title = () => {
-        if(id){
+        if(driverId){
             return <h2 className='text-center'>Update Driver</h2>
         } else {
             return <h2 className='text-center'>Add Driver</h2>
@@ -64,7 +64,8 @@ const AddDriversComponent = () => {
             <div className='row'>
                 <div className='card col-md-6 offset-md-3 offset-md-3'>
                     {
-                        title()
+                       title()
+                       //<h2 className='text-center'>Add Driver</h2>
                     }
                     <div className='card-body'>
                         <form>
@@ -105,7 +106,7 @@ const AddDriversComponent = () => {
                                 <label className='form-label'>Last Name: </label>
                                 <input
                                 type='text'
-                                placeholder='Enter driver id'
+                                placeholder='Enter last name'
                                 name = "lastName"
                                 className='form-control'
                                 value={lastName}
@@ -145,7 +146,7 @@ const AddDriversComponent = () => {
                                 onChange={(e) => setAddress(e.target.value)}>
                                 </input>
                             </div>
-                            <button className='btn btn-success' onClick={(e) => saveOrUpdateDriver(e)}>submit</button>
+                            <button className='btn btn-success' onClick={(e) => saveDriver(e)}>submit</button>
                             <Link to = '/drivers' className='btn btn-danger'> Cancel </Link>
                         </form>
                     </div>

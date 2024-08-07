@@ -7,3 +7,109 @@
   text-align: center;
   color: white;
 }
+
+.homepage .h1-text {
+  text-shadow: 2px 2px 2px black;
+  color:aqua;
+  text-align: center;
+}
+
+
+body, html {
+  height: 100%;
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-image: url('https://myrepublica.nagariknetwork.com/uploads/media/Solar_20201211122206.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent background */
+  padding: 10px 20px;
+}
+
+.navbar-left {
+  display: flex;
+  gap: 15px;
+}
+
+.navbar-left a, .navbar-right button {
+  color: white;
+  text-decoration: none;
+  padding: 10px 15px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.navbar-left a:hover, .navbar-right button:hover {
+  background-color: rgba(255, 255, 255, 0.2); /* Hover effect */
+}
+
+.navbar-right {
+  display: flex;
+  gap: 10px;
+}
+
+/*
+This is to smooth scroll to the buttom of the page when contacts button is clicked
+*/
+html {
+  scroll-behavior: smooth;
+}
+
+
+/*
+css styling for html sign up form
+*/
+.form-container {
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.form-group input {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
+
+.form-group button {
+  padding: 10px;
+  border: none;
+  border-radius: 3px;
+  background-color: #4CAF50;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.form-group button:hover {
+  background-color: #45a049;
+}
+
+
+
+
+

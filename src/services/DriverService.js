@@ -1,6 +1,8 @@
 import axios from 'axios'
 
-const TRAFFIC_BASE_REST_API_URL = 'http://localhost:8080/v2/tcs/'
+const TRAFFIC_BASE_REST_API_URL = 'http://localhost:8080/v2/tcs/api/'
+const TRAFFIC_BASE_REST_AUTH_URL = 'http://localhost:8080/v2/tcs/auth/'
+
 
 class DriverService{
     getAllDrivers(){
@@ -21,6 +23,10 @@ class DriverService{
 
     deleteDriver(driverId){
         return axios.delete(TRAFFIC_BASE_REST_API_URL + "deleteDriverById/" + driverId, driverId)
+    }
+
+    signUpDriver(driver) {
+        return axios.post(TRAFFIC_BASE_REST_AUTH_URL + "signUp", driver)
     }
 }
 

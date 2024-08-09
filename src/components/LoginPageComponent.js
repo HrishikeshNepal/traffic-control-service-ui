@@ -26,7 +26,7 @@ function LoginPageComponent() {
             <label>Username:</label>
             <input type="text" name="username" onChange={handleChange} />
             <label>Password:</label>
-            <input type="password" name="password" onChange={handleChange} />
+            <input type="password" name="password" onChange={handleChange} /> <br />
             <button type="submit">Login</button>
             <p>
                 Don't have an account? <Link to="/signup">Sign up</Link>

@@ -113,7 +113,34 @@ css styling for html sign up form
   background-color: #45a049;
 }
 
+/*
+CSS for table in profile page
+*/
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: white; /* White background */
+}
 
+th, td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+  color: black; /* Black font color */
+}
+
+th {
+  background-color: #f2f2f2;
+  color: black; /* Ensure header text is also black */
+}
+
+tr:nth-child(even) {
+  background-color: #f9f9f9; /* Light gray background for even rows */
+}
+
+tr:hover {
+  background-color: #f1f1f1; /* Light gray background on hover */
+}
 
 
 

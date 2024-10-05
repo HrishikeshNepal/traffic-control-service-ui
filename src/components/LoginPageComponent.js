@@ -20,12 +20,13 @@ function LoginPageComponent() {
     e.preventDefault();
     try {
       // Assuming your backend API is running on http://localhost:8080
-      const response = await DriverService.loginDriver(loginDriver);
+      const driverResponse = await DriverService.loginDriver(loginDriver);
       // Clear any previous error mesages
       setError('');
-      if (response.status === 200) {
-        //alert('Login successful!');
-        navigate('/profile'); 
+      if (driverResponse.status === 200) {
+        const driverInfo = driverResponse.data;
+        // Navigate to profile page with the driver object
+        navigate('/profile', { state: { driverInfo } });
       }
     } catch (error) {
       console.error('Login failed!', error);

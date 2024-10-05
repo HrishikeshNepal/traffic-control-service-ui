@@ -10,13 +10,16 @@ const AddDriversComponent = () => {
     const[lastName, setLastName] = useState('')
     const[phone, setPhone] = useState('')
     const[email, setEmail] = useState('')
-    const[address, setAddress] = useState('')
+    const[addressLine1, setAddressLine1] = useState('')
+    const[addressLine2, setAddressLine2] = useState('')
+    const[city, setCity] = useState('')
+    const[province, setProvince] = useState('')
     const navigate = useNavigate();
     const {driverId} = useParams();
 
     const saveDriver = (e) => {
         e.preventDefault();
-        const driver = {id, firstName, middleName, lastName, phone, email, address}
+        const driver = {id, firstName, middleName, lastName, phone, email, addressLine1, addressLine2, city, province}
 
         if(driverId){
             DriverService.updateDriver(id, driver).then((response) => {
@@ -42,7 +45,10 @@ const AddDriversComponent = () => {
             setLastName(response.data.lastName)
             setPhone(response.data.phone)
             setEmail(response.data.email)
-            setAddress(response.data.address)
+            setAddressLine1(response.data.addressLine1)
+            setAddressLine2(response.data.setAddressLine2)
+            setCity(response.data.city)
+            setProvince(response.data.province)
         }).catch(error => {
             console.log(error)
         })
@@ -136,14 +142,47 @@ const AddDriversComponent = () => {
                                 </input>
                             </div>
                             <div className='form-group mb-2'>
-                                <label className='form-label'>Address: </label>
+                                <label className='form-label'>Address Line 1: </label>
                                 <input
                                 type='text'
-                                placeholder='Enter driver address'
-                                name = "address"
+                                placeholder='Address Line 1'
+                                name = "address line 1"
                                 className='form-control'
-                                value={address}
-                                onChange={(e) => setAddress(e.target.value)}>
+                                value={addressLine1}
+                                onChange={(e) => setAddressLine1(e.target.value)}>
+                                </input>
+                            </div>
+                            <div className='form-group mb-2'>
+                                <label className='form-label'>Address Line 2: </label>
+                                <input
+                                type='text'
+                                placeholder='Aaddress Line 2'
+                                name = "address line 2"
+                                className='form-control'
+                                value={addressLine2}
+                                onChange={(e) => setAddressLine2(e.target.value)}>
+                                </input>
+                            </div>
+                            <div className='form-group mb-2'>
+                                <label className='form-label'>City: </label>
+                                <input
+                                type='text'
+                                placeholder='Enter your city'
+                                name = "city"
+                                className='form-control'
+                                value={city}
+                                onChange={(e) => setCity(e.target.value)}>
+                                </input>
+                            </div>
+                            <div className='form-group mb-2'>
+                                <label className='form-label'>Province: </label>
+                                <input
+                                type='text'
+                                placeholder='Enter your province'
+                                name = "province"
+                                className='form-control'
+                                value={province}
+                                onChange={(e) => setProvince(e.target.value)}>
                                 </input>
                             </div>
                             <button className='btn btn-success' onClick={(e) => saveDriver(e)}>submit</button>

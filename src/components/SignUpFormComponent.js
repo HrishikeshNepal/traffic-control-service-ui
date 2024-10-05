@@ -9,7 +9,10 @@ function SignUpFormComponent({ onClose }) {
     lastName: '',
     phone: '',
     email: '',
-    address: '',
+    addressLine1: '',
+    addressLine1: '',
+    city: '',
+    province: '',
     username: '',
     password: ''
   });
@@ -72,8 +75,14 @@ function SignUpFormComponent({ onClose }) {
             <input type="text"  name="phone" value={driver.phone} onChange={handleChange} required /><br/>
             <label>Email:</label>
             <input type="email"  name="email" value={driver.email} onChange={handleChange} required /><br/>
-            <label>Address:</label>
-            <input type="text" name="address" value={driver.address} onChange={handleChange} required /><br/>
+            <label>Address Line 1:</label>
+            <input type="text" name="addressLine1" value={driver.addressLine1} onChange={handleChange} required /><br/>
+            <label>Address Line 2:</label>
+            <input type="text" name="addressLine2" value={driver.addressLine2} onChange={handleChange} required /><br/>
+            <label>City:</label>
+            <input type="text" name="city" value={driver.city} onChange={handleChange} required /><br/>
+            <label>Province:</label>
+            <input type="text" name="province" value={driver.province} onChange={handleChange} required /><br/>
             <label>username</label>
             <input type='text' placeholder='Enter prefered username' name='username' value={driver.username} onChange={handleChange} required /><br/>
             <label>password</label>

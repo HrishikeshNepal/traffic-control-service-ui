@@ -1,15 +1,19 @@
 import React from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 
 function ProfilePageComponent() {
-
+  const navigate = useNavigate();
   const location = useLocation();
   const { driverInfo } = location.state || {}; // Get the driver object from state
 
   const user = {
     username: 'Hrishikesh Nepal',
     email: 'nepal.hrishikesh@gmail.com'
+  };
+
+  const handleUpdate = (driverId) => {
+    navigate(`/edit-driver/${driverId}`);
   };
 
   return (
@@ -40,12 +44,13 @@ function ProfilePageComponent() {
               <th>Phone</th>
               <th>Email</th>
               <th>Address</th>
+              <th>Actions</th>
               {/* <th>Violations</th>
               <th>Pay Penalty</th> */}
             </tr>
           </thead>
           <tbody>
-            <tr>
+            <tr key={driverInfo.driverId}>
               <td>{driverInfo.driverId}</td>
               <td>{driverInfo.firstName}</td>
               <td>{driverInfo.middleName}</td>
@@ -54,6 +59,13 @@ function ProfilePageComponent() {
               <td>{driverInfo.email}</td>
               <td>{driverInfo.addressLine1 + ', ' + driverInfo.addressLine2 + ', ' + 
                 driverInfo.city + ', ' + driverInfo.province}</td>
+              <td><button
+                  className="btn btn-info"
+                  onClick={() => handleUpdate(driverInfo.driverId)}
+                >
+                  Update
+                </button>
+              </td>
             </tr>
           </tbody>
         </table>

@@ -13,12 +13,13 @@ class DriverService{
         return axios.post(TRAFFIC_BASE_REST_API_URL + 'addDriver', driver);
     }
 
-    getDriverById(id){
-        return axios.get(TRAFFIC_BASE_REST_API_URL + 'getdriver/' + id, id);
+    getDriverById(driverId){
+        return axios.get(TRAFFIC_BASE_REST_API_URL + 'getdriver/' + driverId, driverId);
     }
 
     updateDriver(driverId, driver){
-        return axios.put(TRAFFIC_BASE_REST_API_URL + "updateDriver/" + driverId, driverId, driver);
+        console.log('Calling to update Driver info : ', driver)
+        return axios.put(TRAFFIC_BASE_REST_API_URL + "updateDriver/" + driverId, driver);
     }
 
     deleteDriver(driverId){

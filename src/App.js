@@ -20,7 +20,7 @@ function App() {
           <Route exact path='/' Component={HomePageComponent}></Route>
           <Route exact path='/drivers' Component={ListDriversComponent}></Route>
           <Route exact path='/add-driver' Component={AddDriversComponent}></Route>
-          <Route exact path='/edit-driver/:id' Component={AddDriversComponent}></Route>
+          <Route exact path='/edit-driver/:driverId' Component={AddDriversComponent}></Route>
           <Route path="/signup" element={<SignUpFormComponent />} />
           <Route path="/login" element={<LoginPageComponent />} />
           <Route path="/profile" element={<ProfilePageComponent />} />

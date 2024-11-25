@@ -1,99 +1,154 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import DriverService from '../services/DriverService';
+import axios from 'axios';
 
-function SignUpFormComponent({ onClose }) {
-  const [driver, setDriver] = useState({
+function SignUpFormComponent({ closeModal }) {
+  const [formData, setFormData] = useState({
     firstName: '',
     middleName: '',
     lastName: '',
     phone: '',
     email: '',
-    addressLine1: '',
-    addressLine1: '',
-    city: '',
-    province: '',
+    address: '',
     username: '',
-    password: ''
+    password: '',
+    confirmPassword: '',
   });
 
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
-  const navigate = useNavigate();
+  const [showPasswordWarning, setShowPasswordWarning] = useState(false);
+  const [passwordValid, setPasswordValid] = useState(false);
+  const [showPasswordInstructions, setShowPasswordInstructions] = useState(false);
 
-  const handlePasswordChange = (e) => {
-    setPassword(e.target.value);
-  };
-
-  const handleConfirmPasswordChange = (e) => {
-    setConfirmPassword(e.target.value);
-  };
+  const passwordRequirements = /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{12,}$/;
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setDriver({ ...driver, [name]: value });
+    setFormData({ ...formData, [name]: value });
+
+    if (name === 'password') {
+      if (passwordRequirements.test(value)) {
+        setPasswordValid(true);
+        setError('');
+      } else {
+        setPasswordValid(false);
+        setError('Password must be at least 12 characters long, contain one uppercase letter, one number, and one special character.');
+      }
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    if (password !== confirmPassword) {
+    if (formData.password !== formData.confirmPassword) {
       setError('Passwords do not match');
       return;
     }
 
     try {
-      const driverWithPassword = { ...driver, password };
-      // Assuming your backend API is running on http://localhost:8080
-      const response = await DriverService.signUpDriver(driverWithPassword)
-      // Clear any previous error messages
-      setError('');
+      const response = await axios.post('http://localhost:8080/api/signup', {
+        firstName: formData.firstName,
+        middleName: formData.middleName,
+        lastName: formData.lastName,
+        phone: formData.phone,
+        email: formData.email,
+        address: formData.address,
+        username: formData.username,
+        password: formData.password,
+      });
+      
       if (response.status === 200) {
-        alert('Sign-up successful!');
-        //onClose(); // Close the modal
-        navigate('/login'); // Navigate to the login page
+        closeModal(); // Close the modal on successful sign-up
       }
     } catch (error) {
-      console.error('There was an error signing up!', error);
-      alert('Sign-up failed. Please try again.');
+      console.error('Error during sign up:', error);
+      setError('Failed to sign up, please try again.');
     }
   };
 
   return (
-    <div>
-      <h1>Sign Up</h1>
-      <form className = 'form-container' onSubmit={handleSubmit}>
-        <div className='form-group'>
-            <label>First Name:</label>
-            <input type="text" name="firstName" value={driver.firstName} onChange={handleChange} required /><br/>
-            <label>Middle Name:</label>
-            <input type="text" name="middleName" value={driver.middleName} onChange={handleChange} required /><br/>
-            <label>Last Name:</label>
-            <input type="text" name="lastName" value={driver.lastName} onChange={handleChange} required /><br/>
-            <label>Phone:</label>
-            <input type="text"  name="phone" value={driver.phone} onChange={handleChange} required /><br/>
-            <label>Email:</label>
-            <input type="email"  name="email" value={driver.email} onChange={handleChange} required /><br/>
-            <label>Address Line 1:</label>
-            <input type="text" name="addressLine1" value={driver.addressLine1} onChange={handleChange} required /><br/>
-            <label>Address Line 2:</label>
-            <input type="text" name="addressLine2" value={driver.addressLine2} onChange={handleChange} required /><br/>
-            <label>City:</label>
-            <input type="text" name="city" value={driver.city} onChange={handleChange} required /><br/>
-            <label>Province:</label>
-            <input type="text" name="province" value={driver.province} onChange={handleChange} required /><br/>
-            <label>username</label>
-            <input type='text' placeholder='Enter prefered username' name='username' value={driver.username} onChange={handleChange} required /><br/>
-            <label>password</label>
-            <input type='password' name = 'password' value={password} onChange={handlePasswordChange} required /><br/>
-            <label>Confirm Password:</label>
-            <input type='password' value={confirmPassword} onChange={handleConfirmPasswordChange} required /><br/>
-            {error && <p style={{ color: 'red' }}>{error}</p>}
-            <button type="submit">Sign Up</button>
+    <form onSubmit={handleSubmit}>
+      <div>
+        <label>First Name</label>
+        <input type="text" name="firstName" value={formData.firstName} onChange={handleChange} required />
+      </div>
+      <div>
+        <label>Middle Name</label>
+        <input type="text" name="middleName" value={formData.middleName} onChange={handleChange} />
+      </div>
+      <div>
+        <label>Last Name</label>
+        <input type="text" name="lastName" value={formData.lastName} onChange={handleChange} required />
+      </div>
+      <div>
+        <label>Phone</label>
+        <input type="text" name="phone" value={formData.phone} onChange={handleChange} required />
+      </div>
+      <div>
+        <label>Email</label>
+        <input type="email" name="email" value={formData.email} onChange={handleChange} required />
+      </div>
+      <div>
+        <label>Address</label>
+        <input type="text" name="address" value={formData.address} onChange={handleChange} required />
+      </div>
+      <div>
+        <label>Username</label>
+        <input type="text" name="username" value={formData.username} onChange={handleChange} required />
+      </div>
+      <div>
+        <label>Password</label>
+        <input
+          type="password"
+          name="password"
+          value={formData.password}
+          placeholder="Enter a strong password"
+          onChange={handleChange}
+          required
+        />
+        {error && <p style={{ color: 'red' }}>{error}</p>}
+
+        <a
+          href="#"
+          onMouseEnter={() => setShowPasswordInstructions(true)}
+          onMouseLeave={() => setShowPasswordInstructions(false)}
+          onClick={(e) => {
+            e.preventDefault();
+            setShowPasswordInstructions((prev) => !prev);
+          }}
+          style={{ color: 'blue', cursor: 'pointer' }}
+        >
+          Password Requirements
+        </a>
+
+        {showPasswordInstructions && (
+          <div style={{ color: 'gray', fontSize: '0.85rem', marginTop: '10px' }}>
+            <ul>
+              <li>At least 12 characters long</li>
+              <li>Contains one uppercase letter</li>
+              <li>Contains one number</li>
+              <li>Contains one special character (@$!%*?&)</li>
+            </ul>
+          </div>
+        )}
+      </div>
+
+      {/* Confirm password only visible when password is valid */}
+      {passwordValid && (
+        <div>
+          <label>Confirm Password</label>
+          <input
+            type="password"
+            name="confirmPassword"
+            placeholder="Re-enter password"
+            value={formData.confirmPassword}
+            onChange={handleChange}
+            required
+          />
         </div>
-      </form>
-    </div>
+      )}
+
+      <br />
+      <button type="submit">Sign Up</button>
+    </form>
   );
 }
 

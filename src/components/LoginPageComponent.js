@@ -47,6 +47,7 @@ function LoginPageComponent() {
             {error && <p style={{ color: 'red' }}>{error}</p>}
             <button type="submit">Login</button>
             <p>
+              <br />
                 Don't have an account? <Link to="/signup">Sign up</Link>
             </p>
         </div>

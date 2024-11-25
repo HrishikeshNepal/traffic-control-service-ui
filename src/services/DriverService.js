@@ -23,7 +23,7 @@ class DriverService{
     }
 
     deleteDriver(driverId){
-        return axios.delete(TRAFFIC_BASE_REST_API_URL + "deleteDriverById/" + driverId, driverId);
+        return axios.delete(TRAFFIC_BASE_REST_API_URL + "deleteDriverById/" + driverId);
     }
 
     signUpDriver(driver) {

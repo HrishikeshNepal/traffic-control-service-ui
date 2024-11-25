@@ -1,29 +1,35 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import DriverService from '../services/DriverService';
 
 function SignUpFormComponent({ closeModal }) {
-  const [formData, setFormData] = useState({
+  const [newDriverInfo, setNewDriverInfo] = useState({
     firstName: '',
     middleName: '',
     lastName: '',
     phone: '',
     email: '',
-    address: '',
+    addressLine1: '',
+    addressLine2: '',
+    city: '',
+    province: '',
     username: '',
     password: '',
     confirmPassword: '',
   });
 
   const [error, setError] = useState('');
-  const [showPasswordWarning, setShowPasswordWarning] = useState(false);
   const [passwordValid, setPasswordValid] = useState(false);
   const [showPasswordInstructions, setShowPasswordInstructions] = useState(false);
+
+  const navigate = useNavigate();
 
   const passwordRequirements = /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{12,}$/;
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    setNewDriverInfo({ ...newDriverInfo, [e.target.name]: e.target.value });
 
     if (name === 'password') {
       if (passwordRequirements.test(value)) {
@@ -38,25 +44,17 @@ function SignUpFormComponent({ closeModal }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (formData.password !== formData.confirmPassword) {
+    if (newDriverInfo.password !== newDriverInfo.confirmPassword) {
       setError('Passwords do not match');
       return;
     }
 
     try {
-      const response = await axios.post('http://localhost:8080/api/signup', {
-        firstName: formData.firstName,
-        middleName: formData.middleName,
-        lastName: formData.lastName,
-        phone: formData.phone,
-        email: formData.email,
-        address: formData.address,
-        username: formData.username,
-        password: formData.password,
-      });
-      
+      console.log("New signing in driver Info: ", JSON.stringify(newDriverInfo)); // need to update the message to not include passwords
+      const response = await DriverService.signUpDriver(newDriverInfo);
+      setError('');
       if (response.status === 200) {
-        closeModal(); // Close the modal on successful sign-up
+        navigate('/login');
       }
     } catch (error) {
       console.error('Error during sign up:', error);
@@ -64,42 +62,58 @@ function SignUpFormComponent({ closeModal }) {
     }
   };
 
+  const handleCancel = () => {
+    navigate('/');
+  };
+
   return (
     <form onSubmit={handleSubmit}>
       <div>
         <label>First Name</label>
-        <input type="text" name="firstName" value={formData.firstName} onChange={handleChange} required />
+        <input type="text" name="firstName" value={newDriverInfo.firstName} onChange={handleChange} required />
       </div>
       <div>
         <label>Middle Name</label>
-        <input type="text" name="middleName" value={formData.middleName} onChange={handleChange} />
+        <input type="text" name="middleName" value={newDriverInfo.middleName} onChange={handleChange} />
       </div>
       <div>
         <label>Last Name</label>
-        <input type="text" name="lastName" value={formData.lastName} onChange={handleChange} required />
+        <input type="text" name="lastName" value={newDriverInfo.lastName} onChange={handleChange} required />
       </div>
       <div>
         <label>Phone</label>
-        <input type="text" name="phone" value={formData.phone} onChange={handleChange} required />
+        <input type="text" name="phone" value={newDriverInfo.phone} onChange={handleChange} required />
       </div>
       <div>
         <label>Email</label>
-        <input type="email" name="email" value={formData.email} onChange={handleChange} required />
+        <input type="email" name="email" value={newDriverInfo.email} onChange={handleChange} required />
       </div>
       <div>
-        <label>Address</label>
-        <input type="text" name="address" value={formData.address} onChange={handleChange} required />
+        <label>Address Line 1</label>
+        <input type="text" name="addressLine1" value={newDriverInfo.addressLine1} onChange={handleChange} required />
+      </div>
+      <div>
+        <label>Address Line 2</label>
+        <input type="text" name="addressLine2" value={newDriverInfo.addressLine2} onChange={handleChange} required />
+      </div>
+      <div>
+        <label>City</label>
+        <input type="text" name="city" value={newDriverInfo.city} onChange={handleChange} required />
+      </div>
+      <div>
+        <label>Province</label>
+        <input type="text" name="province" value={newDriverInfo.province} onChange={handleChange} required />
       </div>
       <div>
         <label>Username</label>
-        <input type="text" name="username" value={formData.username} onChange={handleChange} required />
+        <input type="text" name="username" value={newDriverInfo.username} onChange={handleChange} required />
       </div>
       <div>
         <label>Password</label>
         <input
           type="password"
           name="password"
-          value={formData.password}
+          value={newDriverInfo.password}
           placeholder="Enter a strong password"
           onChange={handleChange}
           required
@@ -139,7 +153,7 @@ function SignUpFormComponent({ closeModal }) {
             type="password"
             name="confirmPassword"
             placeholder="Re-enter password"
-            value={formData.confirmPassword}
+            value={newDriverInfo.confirmPassword}
             onChange={handleChange}
             required
           />
@@ -148,6 +162,12 @@ function SignUpFormComponent({ closeModal }) {
 
       <br />
       <button type="submit">Sign Up</button>
+
+      <br />
+        <br />
+        <button className='btn btn-danger' onClick={handleCancel}>
+            Cancel
+        </button>
     </form>
   );
 }

@@ -25,21 +25,13 @@ const ListDriversComponent = () => {
         })
     }
 
-    // const updateDriver = (driverId, driver) => {
-    //   DriverService.updateDriver(driverId, driver).then((response) => {
-    //     getAllDrivers();
-    //   }).catch(error => {
-    //     console.log(error);
-    //   })
-    // }
-
   return (
     <div className='container'>
       <h2 className='text-centre'>List Of Drivers</h2>
       <Link to = '/add-driver' className='btn btn-primary mb-2'>Add Drivers</Link>
       <table className='table table-bordered table-striped'>
         <thead>
-            <th>Id</th>
+            <th>Driver Id</th>
             <th>First Name</th>
             <th>Middle Name</th>
             <th>Last Name</th>
@@ -52,8 +44,8 @@ const ListDriversComponent = () => {
             {
                 drivers.map(
                     driver => 
-                    <tr key={driver.id}>
-                        <td>{driver.id}</td>
+                    <tr key={driver.driverId}>
+                        <td>{driver.driverId}</td>
                         <td>{driver.firstName}</td>
                         <td>{driver.middleName}</td>
                         <td>{driver.lastName}</td>
@@ -61,9 +53,8 @@ const ListDriversComponent = () => {
                         <td>{driver.email}</td>
                         <td>{driver.Address}</td>
                         <td>
-                          {/* <button className='btn btn-info' onClick={() => updateDriver(driver.id, driver)}>Update</button> */}
-                          <Link className='btn btn-info' to={'/edit-driver/${driver.id}'} >Update</Link>
-                          <button className='btn btn-danger' onClick={() => deleteDriver(driver.id)}
+                          <Link className='btn btn-info' to={'/edit-driver/${driver.driverId}'} >Update</Link>
+                          <button className='btn btn-danger' onClick={() => deleteDriver(driver.driverId)}
                             style={{marginLeft:'10px'}}>Delete</button>
                         </td>
                 </tr>

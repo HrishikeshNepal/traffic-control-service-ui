@@ -1,10 +1,12 @@
 import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams} from 'react-router-dom';
 import DriverService from '../services/DriverService'
 
-function AddDriversComponent() {
-    const [newDriverInfo, setNewDriverInfo] = useState({
-        driverId: '',
+function UpdateDriversComponent() {
+    const {driverId} = useParams();
+    console.log("Driver ID:", driverId);
+    const [updatingDriverInfo, setUpdatingDriverInfo] = useState({
+        driverId: driverId,
         firstName: '',
         middleName: '',
         lastName: '',
@@ -19,33 +21,33 @@ function AddDriversComponent() {
     const navigate = useNavigate();
 
     const handleChange = (e) => {
-        setNewDriverInfo({ ...newDriverInfo, [e.target.name]: e.target.value});
+        setUpdatingDriverInfo({ ...updatingDriverInfo, [e.target.name]: e.target.value});
     }
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
             // Assuming your backend API is running on http://localhost:8080
-            const addNewDriverResponse = await DriverService.createDriver(newDriverInfo);
+            const updatedDriverResponse = await DriverService.updateDriver(driverId, updatingDriverInfo);
             // Clear any previous error mesages
             setError('');
-            if(addNewDriverResponse.status === 200) {
-                const driverInfo = addNewDriverResponse.data;
+            if(updatedDriverResponse.status === 200) {
+                const driverInfo = updatedDriverResponse.data;
                 // Navigate to profile page with the driver object
-                navigate('/drivers', { state: { driverInfo } });
+                navigate('/profile', { state: { driverInfo } });
             }
         } catch (error) {
-            console.error('Create driver info failed!', error);
-            setError('Adding new driver record failed, please check your inputs again!');
+            console.error('Update failed!', error);
+            setError('Update failed, please check your inputs again!');
         }
     }
 
     const handleCancel = () => {
-        navigate('/drivers');
+        navigate('/profile');
       };
 
     const title = () => {
-        return <h2 className='text-center'>Add Driver</h2>
+        return <h2 className='text-center'>Update Driver</h2>
     }
 
   return (
@@ -59,16 +61,6 @@ function AddDriversComponent() {
                     }
                     <div className='card-body'>
                         <form onSubmit={handleSubmit}>
-                        <div className='form-group mb-2'>
-                                <label className='form-label'>Driver Id: </label>
-                                <input
-                                type='text'
-                                placeholder='Enter driver ID'
-                                name = "driverId"
-                                className='form-control'
-                                onChange={handleChange}>
-                                </input>
-                            </div>
                             <div className='form-group mb-2'>
                                 <label className='form-label'>First Name: </label>
                                 <input
@@ -175,4 +167,4 @@ function AddDriversComponent() {
 }
 
 
-export default AddDriversComponent
+export default UpdateDriversComponent

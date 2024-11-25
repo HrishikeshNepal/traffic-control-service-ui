@@ -32,7 +32,10 @@ function LoginPageComponent() {
       console.error('Login failed!', error);
       setError('Invalid username or password. Please try again.');
     }
-    
+  };
+
+  const handleCancel = () => {
+    navigate('/');
   };
 
   return (
@@ -50,6 +53,9 @@ function LoginPageComponent() {
               <br />
                 Don't have an account? <Link to="/signup">Sign up</Link>
             </p>
+            <button className='btn btn-danger' onClick={handleCancel}>
+                Cancel
+            </button>
         </div>
       </form>
     </div>

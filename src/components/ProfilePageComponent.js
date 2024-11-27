@@ -12,8 +12,8 @@ function ProfilePageComponent() {
     email: 'nepal.hrishikesh@gmail.com'
   };
 
-  const handleUpdate = (driverId) => {
-    navigate(`/edit-driver/${driverId}`);
+  const handleUpdate = (driverInfo) => {
+    navigate(`/edit-driver/${driverInfo.driverId}`, { state: { driverInfo } });
   };
 
   return (
@@ -61,7 +61,7 @@ function ProfilePageComponent() {
                 driverInfo.city + ', ' + driverInfo.province}</td>
               <td><button
                   className="btn btn-info"
-                  onClick={() => handleUpdate(driverInfo.driverId)}
+                  onClick={() => handleUpdate(driverInfo)}
                 >
                   Update
                 </button>

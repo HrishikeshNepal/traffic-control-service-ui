@@ -1,22 +1,13 @@
 import React, { useState } from 'react'
-import { useNavigate, useParams} from 'react-router-dom';
+import { useLocation, useNavigate, useParams} from 'react-router-dom';
 import DriverService from '../services/DriverService'
 
 function UpdateDriversComponent() {
     const {driverId} = useParams();
     console.log("Driver ID:", driverId);
-    const [updatingDriverInfo, setUpdatingDriverInfo] = useState({
-        driverId: driverId,
-        firstName: '',
-        middleName: '',
-        lastName: '',
-        phone: '',
-        email: '',
-        addressLine1: '',
-        addressLine2: '',
-        city: '',
-        province: ''
-    });
+    const location = useLocation();
+    const originalDriverInfo = useState(location.state?.driverInfo || {});
+    const [updatingDriverInfo, setUpdatingDriverInfo] = useState(location.state?.driverInfo || {});
     const [error, setError] = useState('');
     const navigate = useNavigate();
 
@@ -34,7 +25,7 @@ function UpdateDriversComponent() {
             if(updatedDriverResponse.status === 200) {
                 const driverInfo = updatedDriverResponse.data;
                 // Navigate to profile page with the driver object
-                navigate('/profile', { state: { driverInfo } });
+                navigate(`/profile?driver-id=${driverInfo.driverId}`, { state: { driverInfo } });
             }
         } catch (error) {
             console.error('Update failed!', error);
@@ -43,8 +34,17 @@ function UpdateDriversComponent() {
     }
 
     const handleCancel = () => {
-        navigate('/profile');
-      };
+        try {
+            if (!driverId) {
+                throw new Error("Driver ID is undefined or invalid.");
+            }
+            navigate(`/profile?driver-id=${driverId}`, { state: { originalDriverInfo } });
+        } catch (error) {
+            console.error("Navigation error:", error);
+            // Optional: Display a user-friendly message or handle fallback logic
+            //alert("Failed to navigate back to the profile page. Please try again.");
+        }
+    };
 
     const title = () => {
         return <h2 className='text-center'>Update Driver</h2>
@@ -65,7 +65,7 @@ function UpdateDriversComponent() {
                                 <label className='form-label'>First Name: </label>
                                 <input
                                 type='text'
-                                placeholder='Enter first name'
+                                value={updatingDriverInfo.firstName} 
                                 name = "firstName"
                                 className='form-control'
                                 onChange={handleChange}>
@@ -75,7 +75,7 @@ function UpdateDriversComponent() {
                                 <label className='form-label'>Middle Name: </label>
                                 <input
                                 type='text'
-                                placeholder='Enter middle name'
+                                value={updatingDriverInfo.middleName} 
                                 name = "middleName"
                                 className='form-control'
                                 onChange={handleChange}>
@@ -85,7 +85,7 @@ function UpdateDriversComponent() {
                                 <label className='form-label'>Last Name: </label>
                                 <input
                                 type='text'
-                                placeholder='Enter last name'
+                                value={updatingDriverInfo.lastName}
                                 name = "lastName"
                                 className='form-control'
                                 onChange={handleChange}>
@@ -95,7 +95,7 @@ function UpdateDriversComponent() {
                                 <label className='form-label'>Phone: </label>
                                 <input
                                 type='text'
-                                placeholder='Enter driver phone'
+                                value={updatingDriverInfo.phone}
                                 name = "phone"
                                 className='form-control'
                                 onChange={handleChange}>
@@ -105,7 +105,7 @@ function UpdateDriversComponent() {
                                 <label className='form-label'>Email: </label>
                                 <input
                                 type='text'
-                                placeholder='Enter driver email'
+                                value={updatingDriverInfo.email}
                                 name = "email"
                                 className='form-control'
                                 onChange={handleChange}>
@@ -115,7 +115,7 @@ function UpdateDriversComponent() {
                                 <label className='form-label'>Address Line 1: </label>
                                 <input
                                 type='text'
-                                placeholder='Address Line 1'
+                                value={updatingDriverInfo.addressLine1}
                                 name = "addressLine1"
                                 className='form-control'
                                 onChange={handleChange}>
@@ -125,7 +125,7 @@ function UpdateDriversComponent() {
                                 <label className='form-label'>Address Line 2: </label>
                                 <input
                                 type='text'
-                                placeholder='Aaddress Line 2'
+                                value={updatingDriverInfo.addressLine2}
                                 name = "addressLine2"
                                 className='form-control'
                                 onChange={handleChange}>
@@ -135,7 +135,7 @@ function UpdateDriversComponent() {
                                 <label className='form-label'>City: </label>
                                 <input
                                 type='text'
-                                placeholder='Enter your city'
+                                value={updatingDriverInfo.city}
                                 name = "city"
                                 className='form-control'
                                 onChange={handleChange}>
@@ -145,7 +145,7 @@ function UpdateDriversComponent() {
                                 <label className='form-label'>Province: </label>
                                 <input
                                 type='text'
-                                placeholder='Enter your province'
+                                value={updatingDriverInfo.province}
                                 name = "province"
                                 className='form-control'
                                 onChange={handleChange}>

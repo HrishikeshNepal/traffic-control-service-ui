@@ -67,6 +67,8 @@ function SignUpFormComponent({ closeModal }) {
   };
 
   return (
+    <div>
+    <h1>Sign Up</h1>
     <form onSubmit={handleSubmit}>
       <div>
         <label>First Name</label>
@@ -169,6 +171,7 @@ function SignUpFormComponent({ closeModal }) {
             Cancel
         </button>
     </form>
+    </div>
   );
 }
 

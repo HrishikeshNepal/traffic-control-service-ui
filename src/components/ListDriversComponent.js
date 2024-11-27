@@ -18,11 +18,16 @@ const ListDriversComponent = () => {
       })
     }    
     const deleteDriver = (driverId) => {
-        DriverService.deleteDriver(driverId).then((response) => {
-          getAllDrivers();
-        }).catch(error => {
-          console.log(error);
-        })
+        const confirmed = window.confirm(
+          "Are you sure you want to delete this driver record? This action cannot be undone."
+        );
+        if (confirmed) {
+          DriverService.deleteDriver(driverId).then((response) => {
+            getAllDrivers();
+          }).catch(error => {
+            console.log(error);
+          })
+      }
     }
 
   return (

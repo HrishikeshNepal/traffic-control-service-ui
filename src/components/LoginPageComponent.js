@@ -26,7 +26,7 @@ function LoginPageComponent() {
       if (driverResponse.status === 200) {
         const driverInfo = driverResponse.data;
         // Navigate to profile page with the driver object
-        navigate('/profile', { state: { driverInfo } });
+        navigate(`/profile?driver-id=${driverInfo.driverId}`, { state: { driverInfo } });
       }
     } catch (error) {
       console.error('Login failed!', error);
